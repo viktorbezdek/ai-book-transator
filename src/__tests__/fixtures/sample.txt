@@ -1,0 +1,6 @@
+This is a sample text for testing.
+It contains multiple paragraphs and some character names like John Smith and Mary Johnson.
+There's also some wordplay here: "Time flies like an arrow, fruit flies like a banana."
+
+Another paragraph with different names: Professor White and Dr. Black are discussing quantum mechanics.
+This text should be enough to test various translation scenarios.
