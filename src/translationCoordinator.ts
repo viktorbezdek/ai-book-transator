@@ -25,6 +25,13 @@ export class TranslationCoordinator {
 
         console.log(`Starting translation of ${totalChunks} chunks...`);
 
+        // First, process all names in the text to ensure consistency
+        const nameRegex = /(?:[A-Z][a-z]+|[A-Z]r\.) (?:[A-Z][a-z]+|[A-Z]\.)+/g;
+        const names = text.match(nameRegex) || [];
+        for (const name of names) {
+            await this.agent.processName(name);
+        }
+
         for (let i = 0; i < chunks.length; i++) {
             const chunk = chunks[i];
             const progress = ((i + 1) / totalChunks * 100).toFixed(2);
@@ -65,10 +72,23 @@ export class TranslationCoordinator {
     }
 
     private saveTranslationMemory() {
+        const translations = this.agent.getTranslationMemory();
+        const names = this.agent.getNameTranslations();
+
         const memory = {
-            translations: Object.fromEntries(this.agent.getTranslationMemory()),
-            names: Object.fromEntries(this.agent.getNameTranslations())
+            translations: Object.fromEntries(translations),
+            names: Object.fromEntries(names)
         };
+
+        const dir = path.dirname(CONFIG.TRANSLATION_MEMORY_FILE);
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+
+        // Ensure all names are also in the translations memory
+        for (const [name, translation] of names.entries()) {
+            memory.translations[name] = translation;
+        }
 
         fs.writeFileSync(
             CONFIG.TRANSLATION_MEMORY_FILE,

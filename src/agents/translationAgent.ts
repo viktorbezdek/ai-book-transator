@@ -1,5 +1,8 @@
-import { ChatAnthropic } from 'langchain/chat_models/anthropic';
-import { HumanMessage, SystemMessage } from 'langchain/schema';
+import { ChatAnthropic } from '@langchain/anthropic';
+import { HumanMessage, SystemMessage } from '@langchain/core/messages';
+import 'dotenv/config'
+
+const DEFAULT_API_KEY = process.env.ANTHROPIC_API_KEY
 
 export class TranslationAgent {
     private model: ChatAnthropic;
@@ -7,7 +10,7 @@ export class TranslationAgent {
     private translationMemory: Map<string, string>;
     private nameTranslations: Map<string, string>;
 
-    constructor(apiKey: string, targetLanguage: string) {
+    constructor(apiKey: string = DEFAULT_API_KEY, targetLanguage: string) {
         this.model = new ChatAnthropic({
             modelName: 'claude-3-sonnet-20240229',
             anthropicApiKey: apiKey,
@@ -64,6 +67,10 @@ Context: ${context}`;
 
         const translatedName = response.content as string;
         this.nameTranslations.set(name, translatedName);
+
+        // Also add to translation memory for consistency
+        this.updateTranslationMemory(name, translatedName);
+
         return translatedName;
     }
 
