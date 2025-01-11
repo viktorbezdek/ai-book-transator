@@ -2,7 +2,12 @@ import { ChatAnthropic } from '@langchain/anthropic';
 import { HumanMessage, SystemMessage } from '@langchain/core/messages';
 import 'dotenv/config'
 
-const DEFAULT_API_KEY = process.env.ANTHROPIC_API_KEY
+const DEFAULT_API_KEY = process.env.ANTHROPIC_API_KEY ?? ""
+
+if (!DEFAULT_API_KEY || DEFAULT_API_KEY === "") {
+    console.error("Missing API key")
+    process.exit(1)
+}
 
 export class TranslationAgent {
     private model: ChatAnthropic;
