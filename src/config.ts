@@ -5,4 +5,7 @@ export const CONFIG = {
   DEFAULT_TARGET_LANGUAGE: "English",
   TRANSLATION_MEMORY_FILE: "./translation_memory.json",
   OUTPUT_DIR: "translated_books",
+  PROGRESS_UPDATE_INTERVAL: 1000, // Update progress display every 1 second
+  AUTO_SAVE_INTERVAL: 1, // Save after every chunk
+  BACKUP_DIR: "./backups", // Directory for backup files
 };

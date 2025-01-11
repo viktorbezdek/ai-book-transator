@@ -24,6 +24,25 @@ export class TranslationAgent {
     this.targetLanguage = targetLanguage;
     this.translationMemory = new Map();
     this.nameTranslations = new Map();
+    
+    // Load existing translation memory if available
+    try {
+      if (fs.existsSync(CONFIG.TRANSLATION_MEMORY_FILE)) {
+        const memory = JSON.parse(fs.readFileSync(CONFIG.TRANSLATION_MEMORY_FILE, 'utf-8'));
+        if (memory.translations) {
+          Object.entries(memory.translations).forEach(([key, value]) => {
+            this.translationMemory.set(key, value as string);
+          });
+        }
+        if (memory.names) {
+          Object.entries(memory.names).forEach(([key, value]) => {
+            this.nameTranslations.set(key, value as string);
+          });
+        }
+      }
+    } catch (error) {
+      console.warn("Could not load existing translation memory:", error.message);
+    }
   }
 
   async translateChunk(chunk: string, context: string = ""): Promise<string> {
