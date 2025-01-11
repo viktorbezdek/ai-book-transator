@@ -15,6 +15,10 @@ A powerful BunJS-based tool for translating books using LLMs while maintaining c
 - Periodic progress saving
 - CLI interface
 
+## Known Issues
+
+PDF currently doesn't work. Will be fixed soon.
+
 ## Installation
 
 ```bash
