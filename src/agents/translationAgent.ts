@@ -17,7 +17,7 @@ export class TranslationAgent {
 
   constructor(apiKey: string = DEFAULT_API_KEY, targetLanguage: string) {
     this.model = new ChatAnthropic({
-      modelName: "claude-3-sonnet-20240229",
+      model: "claude-3-5-sonnet-20241022",
       anthropicApiKey: apiKey,
       temperature: 0.3,
     });
