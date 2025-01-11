@@ -1,0 +1,22 @@
+{
+  "name": "book-translator",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "build": "bun build ./src/index.ts --outdir ./dist --target node"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.33.1",
+    "commander": "^13.0.0",
+    "epub": "^1.2.1",
+    "epub2": "^3.0.2",
+    "langchain": "^0.3.11",
+    "mammoth": "^1.9.0",
+    "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "typescript": "^5.7.3"
+  }
+}
