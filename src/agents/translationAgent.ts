@@ -11,14 +11,20 @@ if (!DEFAULT_API_KEY || DEFAULT_API_KEY === "") {
 }
 
 export class TranslationAgent {
-  private model: ChatAnthropic;
+  private translationModel: ChatAnthropic;
+  private nameModel: ChatAnthropic;
   private targetLanguage: string;
   private translationMemory: Map<string, string>;
   private nameTranslations: Map<string, string>;
 
   constructor(apiKey: string = DEFAULT_API_KEY, targetLanguage: string) {
-    this.model = new ChatAnthropic({
+    this.translationModel = new ChatAnthropic({
       model: "claude-3-5-sonnet-20241022",
+      anthropicApiKey: apiKey,
+      temperature: 0.3,
+    });
+    this.nameModel = new ChatAnthropic({
+      model: "claude-3-haiku-20240307",
       anthropicApiKey: apiKey,
       temperature: 0.3,
     });
@@ -60,7 +66,7 @@ Translation guidelines:
 
 Context provided: ${context}`;
 
-    const response = await this.model.call([
+    const response = await this.translationModel.call([
       new SystemMessage(systemPrompt),
       new HumanMessage(chunk),
     ]);
@@ -85,7 +91,7 @@ Guidelines:
 
 Context: ${context}`;
 
-    const response = await this.model.call([
+    const response = await this.nameModel.call([
       new SystemMessage(systemPrompt),
       new HumanMessage(name),
     ]);
